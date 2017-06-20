@@ -50,9 +50,13 @@ class AddChannelTestCase(BaseTestCase):
         q = Channel.objects.filter(value="bob@example.org")
         self.assertEqual(q.count(), 1)
 
-
     def test_bad_kinds_dont_work(self):
-        pass
+        url = "/intergrations/add"
+        form = {"kind":"whatsapp", "value":"DoesItMatter"}
+
+        self.client.login(username="alice@example.org", password="password")
+        intergration = self.client.post(url, form)
+        self.assertEqual(intergration, "Bad kind")
 
     ### Test that the team access works
     ### Test that bad kinds don't work
