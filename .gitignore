@@ -9,3 +9,5 @@ static-collected
 static/.DS_Store
 hc-venv
 hc-env
+.vscode/
+.idea/
