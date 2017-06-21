@@ -22,3 +22,4 @@ class ApiAdminTestCase(BaseTestCase):
         ### Assert for the push bullet
         is_present = Channel.objects.filter(user=self.alice, kind='pushbullet', value="test-token").exists()
         self.assertTrue(is_present, msg='pushbullet not present')
+
