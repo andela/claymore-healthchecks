@@ -1,6 +1,5 @@
 from hc.api.models import Check
 from hc.test import BaseTestCase
-from bs4 import BeautifulSoup
 
 
 class AddCheckTestCase(BaseTestCase):
