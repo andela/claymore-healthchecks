@@ -45,18 +45,16 @@ class AddChannelTestCase(BaseTestCase):
         self.client.post(url, form)
         self.client.logout()
 
-        # bob_form = {"kind": "email", "value": "bob@example.org"}
-        self.client.login(username="charlie@example.org", password="password")
-        q = Channel.objects.filter(value="alice@example.org")
-        self.assertEqual(q.count(), 1)
+        url = "/integrations/"
+        self.client.login(username="bob@example.org", password="password")
+        response = self.client.get(url)
+        self.assertIn("alice@example.org", response.content.decode('utf-8'))
 
     def test_bad_kinds_dont_work(self):
-        url = "/intergrations/add/"
+        url = "/integrations/add/"
         form = {"kind":"whatsapp", "value":"DoesItMatter"}
 
         self.client.login(username="alice@example.org", password="password")
-        intergration = self.client.post(url, form)
-        self.assertEqual(intergration.status_code, 404)
+        integration = self.client.post(url, form)
+        self.assertEqual(integration.status_code, 400)
 
-    ### Test that the team access works
-    ### Test that bad kinds don't work
