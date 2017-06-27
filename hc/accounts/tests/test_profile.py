@@ -129,6 +129,7 @@ class ProfileTestCase(BaseTestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTrue("The API key has been created!" in response.content.decode())
 
+        # revoke api key
         form = {"revoke_api_key": "alice-api"}
         response = self.client.post("/accounts/profile/", form)
         self.assertEqual(response.status_code, 200)
