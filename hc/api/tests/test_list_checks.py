@@ -32,25 +32,45 @@ class ListChecksTestCase(BaseTestCase):
         return self.client.get("/api/v1/checks/", HTTP_X_API_KEY="abc")
 
     def test_it_works(self):
-        r = self.get()
+        response = self.get()
         ### Assert the response status code
+        self.assertEqual(response.status_code, 200)
 
-        doc = r.json()
+        doc = response.json()
         self.assertTrue("checks" in doc)
 
         checks = {check["name"]: check for check in doc["checks"]}
         ### Assert the expected length of checks
+        self.assertEqual(len(checks), 2)
+
         ### Assert the checks Alice 1 and Alice 2's timeout, grace, ping_url, status,
+        print(checks)
+        self.assertEqual(checks['Alice 2']['timeout'], 86400)
+        self.assertEqual(checks['Alice 1']['timeout'], 3600)
+
+        self.assertEqual(checks['Alice 2']['grace'], 3600)
+        self.assertEqual(checks['Alice 1']['grace'], 900)
+
+        self.assertEqual(checks['Alice 2']['status'], "up")
+        self.assertEqual(checks['Alice 1']['status'], "new")
+
         ### last_ping, n_pings and pause_url
 
     def test_it_shows_only_users_checks(self):
         bobs_check = Check(user=self.bob, name="Bob 1")
         bobs_check.save()
 
-        r = self.get()
-        data = r.json()
+        response = self.get()
+        data = response.json()
         self.assertEqual(len(data["checks"]), 2)
         for check in data["checks"]:
             self.assertNotEqual(check["name"], "Bob 1")
 
     ### Test that it accepts an api_key in the request
+
+    def test_it_accepts_api_key_in_request(self):
+        response = self.client.get("/api/v1/checks/", HTTP_X_API_KEY="abc")
+        assert response.status_code is 200
+
+        response = self.client.get("/api/v1/checks/",)
+        self.assertEqual(response.status_code, 400)
