@@ -11,3 +11,4 @@ hc-venv
 hc-env
 .vscode/
 .idea/
+.cache/
