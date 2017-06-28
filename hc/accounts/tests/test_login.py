@@ -33,7 +33,7 @@ class LoginTestCase(TestCase):
         self.client.get("/accounts/login/")
         assert "bad_link" not in self.client.session
 
-        ### Any other tests?
+        ### Any other tests??
     def test_email_recipient(self):
         check = Check()
         check.save()
