@@ -52,7 +52,6 @@ class CreateCheckTestCase(BaseTestCase):
         payload = {"name": "Foo"}
         ### Make the post request and get the response
 
-        # r = {'status_code': 201}
         response = self.client.post(self.URL, json.dumps(payload), HTTP_X_API_KEY="abc",
                              content_type="application/json")
 
@@ -66,7 +65,6 @@ class CreateCheckTestCase(BaseTestCase):
         response = self.client.post(self.URL, json.dumps(payload),
                                     content_type="application/json")
 
-        # r = {'status_code': 400, 'error': "wrong api_key"} ### This is just a placeholder variable
         self.assertEqual(response.status_code, 400)
         self.assertEqual(response.json()['error'], "wrong api_key")
 
@@ -75,7 +73,6 @@ class CreateCheckTestCase(BaseTestCase):
         payload = {"name": "Foo"}
         response = self.client.post(self.URL, payload,
                                     content_type="application/json")
-        # r = {'status_code': 400, 'error': "could not parse request body"} ### This is just a placeholder variable
         self.assertEqual(response.status_code, 400)
         self.assertEqual(response.json()['error'], "could not parse request body")
 
@@ -107,8 +104,6 @@ class CreateCheckTestCase(BaseTestCase):
             "grace": 60,
             "channels": "*"
         })
-
-
 
         check_channel = [channel for channel in Check.objects.get().channel_set.all()][0]
 

@@ -9,11 +9,11 @@ class PauseTestCase(BaseTestCase):
         check.save()
 
         url = "/api/v1/checks/%s/pause" % check.code
-        r = self.client.post(url, "", content_type="application/json",
+        response = self.client.post(url, "", content_type="application/json",
                              HTTP_X_API_KEY="abc")
 
         ### Assert the expected status code and check's status
-        assert r.status_code == 200
+        assert response.status_code == 200
         assert check.status == "up"
 
     def test_it_validates_ownership(self):
