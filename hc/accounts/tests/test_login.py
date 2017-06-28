@@ -44,7 +44,7 @@ class LoginTestCase(TestCase):
 
         form = {"email": "alice@example.org"}
 
-        r= self.client.post("/accounts/login/", form)
+        response= self.client.post("/accounts/login/", form)
 
         self.assertEqual(mail.outbox[0].to[0], "alice@example.org")
 
