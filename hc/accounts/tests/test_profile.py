@@ -20,7 +20,6 @@ class ProfileTestCase(BaseTestCase):
         ### Assert that the token is set
         self.assertTrue(token is not None)
         ### Assert that the email was sent and check email content
-        #print(len(mail.outbox))
         self.assertEqual(len(mail.outbox), 1)
         email = mail.outbox[0]
         self.assertTrue("Here's a link to set a password for your account on healthchecks.io:" in email.body)
