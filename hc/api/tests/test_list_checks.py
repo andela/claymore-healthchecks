@@ -44,7 +44,6 @@ class ListChecksTestCase(BaseTestCase):
         self.assertEqual(len(checks), 2)
 
         ### Assert the checks Alice 1 and Alice 2's timeout, grace, ping_url, status,
-        print(checks)
         self.assertEqual(checks['Alice 2']['timeout'], 86400)
         self.assertEqual(checks['Alice 1']['timeout'], 3600)
 
