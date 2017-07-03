@@ -180,6 +180,14 @@ $(function () {
         return false;
     });
 
+    $(".set-priority").click(function(e){
+        var url = e.target.getAttribute("data-url");
+        $("#priority").attr("action", url);
+
+        $("#update-priority-modal").modal("show");
+        return false;
+    });
+
 
     var clipboard = new Clipboard('button.copy-link');
     $("button.copy-link").mouseout(function(e) {
