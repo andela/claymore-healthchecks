@@ -8,7 +8,9 @@ static-collected
 .DS_Store
 static/.DS_Store
 hc-venv
+hc/local_settings_old.py
+hc/local_urls.py
+local_settings.py
 hc-env
 .vscode/
 .idea/
-.cache/
