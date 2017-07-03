@@ -54,9 +54,7 @@ class CreateCheckTestCase(BaseTestCase):
 
         response = self.client.post(self.URL, json.dumps(payload), HTTP_X_API_KEY="abc",
                              content_type="application/json")
-
         ### This is just a placeholder variable
-
         self.assertEqual(response.status_code, 201)
 
     def test_it_handles_missing_request_body(self):

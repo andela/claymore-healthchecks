@@ -76,18 +76,18 @@ class PingTestCase(TestCase):
     def test_paused_ping_changes_status(self):
         assert self.check.status == "new"
         self.check.status = "paused"
-        self.client.get("/ping/%s/" % self.check.code)
+        self.client.get("/ping/{0}/" .format(self.check.code))
         self.check.refresh_from_db()
         assert self.check.status == "up"
 
     ### Test that a post to a ping works
     def test_ping_to_post(self):
-        response = self.client.post("/ping/%s/" % self.check.code)
+        response = self.client.post("/ping/{0}/" .format(self.check.code))
         assert response.status_code == 200
 
     ### Test that the csrf_client head works
     def test_the_csrf_client_head_works(self):
         self.csrf_client = Client(enforce_csrf_checks=True)
         self.assertTrue(self.csrf_client)
-        r = self.csrf_client.get("/ping/%s/" % self.check.code)
+        r = self.csrf_client.get("/ping/{0}/" .format(self.check.code))
         assert r.status_code == 200
