@@ -33,5 +33,18 @@ class LoginTestCase(TestCase):
         self.client.get("/accounts/login/")
         assert "bad_link" not in self.client.session
 
-        ### Any other tests?
+        ### Any other tests??
+    def test_email_recipient(self):
+        check = Check()
+        check.save()
+
+        session = self.client.session
+        session["welcome_code"] = str(check.code)
+        session.save()
+
+        form = {"email": "alice@example.org"}
+
+        response= self.client.post("/accounts/login/", form)
+
+        self.assertEqual(mail.outbox[0].to[0], "alice@example.org")
 
