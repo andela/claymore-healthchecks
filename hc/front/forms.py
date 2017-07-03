@@ -1,5 +1,6 @@
 from django import forms
 from hc.api.models import Channel
+from hc.api.models import Check
 
 
 class NameTagsForm(forms.Form):
@@ -31,6 +32,20 @@ class AddChannelForm(forms.ModelForm):
     def clean_value(self):
         value = self.cleaned_data["value"]
         return value.strip()
+
+
+class PriorityForm(forms.Form):
+
+    CHOICES = ((-2, 'Very low'),
+               (-1, 'Low'),
+               (0, 'Normal'),
+               (1, 'High'),
+               (2, 'Very high'))
+
+    priority = forms.ChoiceField(choices=CHOICES)
+
+    def clean_value(self):
+        return self.cleaned_data["priority"]
 
 
 class AddWebhookForm(forms.Form):
