@@ -1,9 +1,5 @@
 from django.contrib.auth.hashers import make_password
 from hc.test import BaseTestCase
-from django.contrib.auth.models import User
-from hc.accounts.models import Profile
-import uuid
-from django.urls import reverse
 
 
 class CheckTokenTestCase(BaseTestCase):
@@ -22,24 +18,11 @@ class CheckTokenTestCase(BaseTestCase):
         self.assertRedirects(r, "/checks/")
 
         # After login, token should be blank
-        self.profile.refresh_from_db() 
+        self.profile.refresh_from_db()
         self.assertEqual(self.profile.token, "")
-        
+
     ### Login and test it redirects already logged in
-    def test_loggedin_redirects(self):
-        user= User(username ='alice@example.org')
-        user.set_password('password')
-        user.save
 
-        self.client.login(username='alice@example.org',  password = 'password')
-        response = self.client.get("/")
-        self.assertRedirects(r, '/checks/')
     ### Login with a bad token and check that it redirects
-    
-    def test_login_badtoken(self):
-        
-        response = self.client.post("/accounts/check_token/alice/wrong-token/")
-        self.assertRedirects(response, '/accounts/login/')
 
-
-    ### Any other tests
+    ### Any other tests?
