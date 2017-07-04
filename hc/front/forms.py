@@ -1,6 +1,5 @@
 from django import forms
 from hc.api.models import Channel
-from hc.api.models import Check
 
 
 class NameTagsForm(forms.Form):
@@ -36,11 +35,8 @@ class AddChannelForm(forms.ModelForm):
 
 class PriorityForm(forms.Form):
 
-    CHOICES = ((-2, 'Very low'),
-               (-1, 'Low'),
-               (0, 'Normal'),
-               (1, 'High'),
-               (2, 'Very high'))
+    CHOICES = ((1, 'Very low'),
+               (0, 'Low'))
 
     priority = forms.ChoiceField(choices=CHOICES)
 
