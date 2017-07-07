@@ -264,3 +264,10 @@ class Notification(models.Model):
     channel = models.ForeignKey(Channel)
     created = models.DateTimeField(auto_now_add=True)
     error = models.CharField(max_length=200, blank=True)
+
+
+class StakeHolder(models.Model):
+    name = models.CharField(max_length=100, null=True)
+    email = models.CharField(max_length=50, null=True)
+    code = models.UUIDField(null=True)
+    hierachy = models.IntegerField(default=0)
