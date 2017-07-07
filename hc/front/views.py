@@ -7,16 +7,16 @@ from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.db.models import Count
-from django.http import Http404, HttpResponseBadRequest, HttpResponseForbidden
+from django.http import Http404, HttpResponseBadRequest, HttpResponseForbidden, HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.crypto import get_random_string
 from django.utils.six.moves.urllib.parse import urlencode
 from hc.api.decorators import uuid_or_400
-from hc.api.models import DEFAULT_GRACE, DEFAULT_TIMEOUT, Channel, Check, Ping
+from hc.api.models import DEFAULT_GRACE, DEFAULT_TIMEOUT, Channel, Check, Ping, StakeHolder
 from hc.front.forms import (AddChannelForm, AddWebhookForm, NameTagsForm,
-                            TimeoutForm, PriorityForm)
+                            TimeoutForm, PriorityForm, StakeHolderForm)
 
 
 # from itertools recipes:
@@ -171,7 +171,7 @@ def update_timeout(request, code):
 @login_required
 @uuid_or_400
 def update_priority(request, code):
-    ### Updates check priority
+    # Updates check priority
 
     assert request.method == "POST"
 
@@ -185,6 +185,40 @@ def update_priority(request, code):
         check.save()
 
     return redirect("hc-checks")
+
+@login_required
+@uuid_or_400
+def stakeholders(request, code):
+    assert request.method == "GET"
+
+    stakeholders = StakeHolder.objects.filter(code=code)
+
+    ctx = {
+        "code": code,
+        "stakeholders": stakeholders
+    }
+
+    return render(request, "front/stakeholder.html", ctx)
+
+
+@login_required
+@uuid_or_400
+def add_stakeholder(request, code):
+    assert request.method == "POST"
+
+    form = StakeHolderForm(request.POST)
+    if form.is_valid():
+        name = form.cleaned_data["stakeholder_name"]
+        email = form.cleaned_data["stakeholder_email"]
+        stakeholder = StakeHolder(name=name, email=email)
+        stakeholder.code = code
+        stakeholder.save()
+    else:
+        string = form.cleaned_data["stakeholder_name"] + "Who diss"
+        return HttpResponse(string)
+
+    return redirect("hc-stakeholders", code)
+
 
 @login_required
 @uuid_or_400
