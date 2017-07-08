@@ -5,6 +5,7 @@ hc.sqlite
 hc/local_settings.py
 static-collected
 .idea/
+.vscode/
 
 .DS_Store
 static/.DS_Store
