@@ -1,16 +1,14 @@
 {% load hc_extras humanize %}
 <table id="stakeholder-table" class="table hidden-xs">
     <tr>
-        <th>Hierachy</th>
+        <th></th>
         <th class="th-name">Name</th>
         <th>Email</th>
-        <th></th>
+        <th>Hierachy</th>
     </tr>
     {% for stakeholder in stakeholders %}
     <tr class="stakeholder-row">
-        <td class="hierachy">
-            {{ stakeholder.hierachy }}
-        </td>
+        <td></td>
         <td class="name-cell">
             <div data-name="{{ stakeholder.name }}">
                 <div>{{ stakeholder.name }}</div>
@@ -22,14 +20,30 @@
             </div>
         </td>
         <td>
-            <div class="row">
-                <button class="btn btn-sm btn-default">
-                    <span class="glyphicon glyphicon-menu-down" aria-hidden="true"></span>
-                </button>
-                <button class="btn btn-sm btn-default">
-                    <span class="glyphicon glyphicon-menu-up" aria-hidden="true"></span>
-                </button>
-            </div>
+            <ul class="hierachy" style="list-style-type: none; display: inline-block;">
+                <li>
+                    <button class="btn btn-sm btn-default" id="increment-btn">
+                        <i class="fa fa-chevron-down" aria-hidden="true"></i>
+                    </button>
+                </li>
+                <li>
+                    <div class="hierachy-value col-sm-1">
+                        {{ stakeholder.hierachy }}
+                    </div>
+                </li>
+                <li>
+                    <button class="btn btn-sm btn-default" id="decrement-btn">
+                        <i class="fa fa-chevron-up" aria-hidden="true"></i>
+                    </button>
+                </li>
+            </ul>
+        </td>
+        <td>
+            <button href="#" class="btn btn-sm btn-default stake-holder-remove"
+                    data-url="{% url 'hc-remove-stakeholder' stakeholder.code stakeholder.email %}"
+                    data-name="{{ stakeholder.name }}">
+                <span class="icon-delete" aria-hidden="true"></span>
+            </button>
         </td>
     </tr>
     {% endfor %}
