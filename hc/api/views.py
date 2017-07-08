@@ -23,11 +23,13 @@ def ping(request, code):
 
     check.n_pings = F("n_pings") + 1
     check.last_ping = timezone.now()
-    if check.status == "new":
+    if check.status in ("new", "paused"):
         check.status = "up"
 
     check.save()
     check.refresh_from_db()
+    # check from the db send mail to user on jobs that are running too often
+    check.runs_too_often()
 
     ping = Ping(owner=check)
     headers = request.META
@@ -76,6 +78,23 @@ def checks(request):
     return HttpResponse(status=405)
 
 
+@csrf_exempt
+@check_api_key
+def pause(request, code):
+    if request.method != "POST":
+        # Method not allowed
+        return HttpResponse(status=405)
+
+    try:
+        check = Check.objects.get(code=code, user=request.user)
+    except Check.DoesNotExist:
+        return HttpResponseBadRequest()
+
+    check.status = "paused"
+    check.save()
+    return JsonResponse(check.to_dict())
+
+
 @never_cache
 def badge(request, username, signature, tag):
     if not check_signature(username, tag, signature):
@@ -93,6 +112,8 @@ def badge(request, username, signature, tag):
         if check.get_status() == "down":
             status = "down"
             break
-
+        if check.get_status =="over":
+            status = "over"
+            break
     svg = get_badge_svg(tag, status)
     return HttpResponse(svg, content_type="image/svg+xml")

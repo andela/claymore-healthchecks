@@ -7,8 +7,8 @@ from datetime import timedelta as td
 
 from django.conf import settings
 from django.contrib.auth.models import User
-from django.core.urlresolvers import reverse
 from django.db import models
+from django.urls import reverse
 from django.utils import timezone
 from hc.api import transports
 from hc.lib import emails
@@ -17,7 +17,8 @@ STATUSES = (
     ("up", "Up"),
     ("down", "Down"),
     ("new", "New"),
-    ("paused", "Paused")
+    ("paused", "Paused"),
+    ("over", "over")
 )
 DEFAULT_TIMEOUT = td(days=1)
 DEFAULT_GRACE = td(hours=1)
@@ -68,6 +69,7 @@ class Check(models.Model):
     def email(self):
         return "%s@%s" % (self.code, settings.PING_EMAIL_DOMAIN)
 
+    #use
     def send_alert(self):
         if self.status not in ("up", "down"):
             raise NotImplementedError("Unexpected status: %s" % self.status)
@@ -81,18 +83,29 @@ class Check(models.Model):
         return errors
 
     def get_status(self):
-        if self.status == "new":
+        if self.status in ("new", "paused"):
             return self.status
 
         now = timezone.now()
 
         if self.last_ping + self.timeout + self.grace > now:
             return "up"
+        if self.last_ping < self.timeout - self.grace:
+            return "over"
 
         return "down"
 
+    def runs_too_often(self):
+        checks = Check.objects.filter(user=self.user)
+        for check in checks:
+            if self.last_ping < self.timeout - self.grace:
+                ctx = {
+                    "check": check
+                }
+                emails.alert(self.value, ctx)
+
     def in_grace_period(self):
-        if not self.last_ping:
+        if self.status in ("new", "paused"):
             return False
 
         up_ends = self.last_ping + self.timeout
@@ -108,9 +121,12 @@ class Check(models.Model):
         return [t.strip() for t in self.tags.split(" ") if t.strip()]
 
     def to_dict(self):
+        pause_rel_url = reverse("hc-api-pause", args=[self.code])
+
         result = {
             "name": self.name,
             "ping_url": self.url(),
+            "pause_url": settings.SITE_ROOT + pause_rel_url,
             "tags": self.tags,
             "timeout": int(self.timeout.total_seconds()),
             "grace": int(self.grace.total_seconds()),
@@ -186,6 +202,8 @@ class Channel(models.Model):
     def notify(self, check):
         # Make 3 attempts--
         for x in range(0, 3):
+
+            ###que wtf
             error = self.transport.notify(check) or ""
             if error in ("", "no-op"):
                 break  # Success!

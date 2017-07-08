@@ -1,7 +1,13 @@
-import braintree
-
+from django.conf import settings
 from django.contrib.auth.models import User
 from django.db import models
+
+if settings.USE_PAYMENTS:
+    import braintree
+else:
+    # hc.payments tests mock this object, so tests should
+    # still be able to run:
+    braintree = None
 
 
 class SubscriptionManager(models.Manager):
@@ -34,7 +40,6 @@ class Subscription(models.Model):
         return self._pm
 
     def pm_is_credit_card(self):
-        print(self.payment_method_token, self._get_braintree_payment_method())
         return isinstance(self._get_braintree_payment_method(),
                           braintree.credit_card.CreditCard)
 

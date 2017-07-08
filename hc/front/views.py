@@ -6,10 +6,10 @@ import requests
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.core.urlresolvers import reverse
 from django.db.models import Count
-from django.http import HttpResponseBadRequest, HttpResponseForbidden, Http404
+from django.http import Http404, HttpResponseBadRequest, HttpResponseForbidden
 from django.shortcuts import get_object_or_404, redirect, render
+from django.urls import reverse
 from django.utils import timezone
 from django.utils.crypto import get_random_string
 from django.utils.six.moves.urllib.parse import urlencode
@@ -75,7 +75,7 @@ def _welcome_check(request):
 
 
 def index(request):
-    if request.user.is_authenticated():
+    if request.user.is_authenticated:
         return redirect("hc-checks")
 
     check = _welcome_check(request)
@@ -165,6 +165,21 @@ def update_timeout(request, code):
         check.timeout = td(seconds=form.cleaned_data["timeout"])
         check.grace = td(seconds=form.cleaned_data["grace"])
         check.save()
+
+    return redirect("hc-checks")
+
+
+@login_required
+@uuid_or_400
+def pause(request, code):
+    assert request.method == "POST"
+
+    check = get_object_or_404(Check, code=code)
+    if check.user_id != request.team.user.id:
+        return HttpResponseForbidden()
+
+    check.status = "paused"
+    check.save()
 
     return redirect("hc-checks")
 
@@ -375,7 +390,7 @@ def add_pd(request):
 
 
 def add_slack(request):
-    if not settings.SLACK_CLIENT_ID and not request.user.is_authenticated():
+    if not settings.SLACK_CLIENT_ID and not request.user.is_authenticated:
         return redirect("hc-login")
 
     ctx = {
