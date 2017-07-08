@@ -32,6 +32,7 @@ channel_urls = [
 stakeholder_urls = [
     url(r'^list/$', views.stakeholders, name='hc-stakeholders'),
     url(r'^add/$', views.add_stakeholder, name="hc-add-stakeholder"),
+    url(r'^remove/(?P<email>[\w.@]+)/$', views.remove_stakeholder, name='hc-remove-stakeholder'),
 ]
 
 urlpatterns = [
@@ -40,7 +41,7 @@ urlpatterns = [
     url(r'^checks/add/$', views.add_check, name="hc-add-check"),
     url(r'^checks/([\w-]+)/', include(check_urls)),
     url(r'^integrations/', include(channel_urls)),
-    url(r'^stakeholders/([\w-]+)/', include(stakeholder_urls)),
+    url(r'^stakeholders/(?P<code>[\wd-]+)/', include(stakeholder_urls)),
 
     url(r'^docs/$', views.docs, name="hc-docs"),
     url(r'^docs/api/$', views.docs_api, name="hc-docs-api"),
