@@ -170,58 +170,6 @@ def update_timeout(request, code):
 
 @login_required
 @uuid_or_400
-def update_priority(request, code):
-    # Updates check priority
-
-    assert request.method == "POST"
-
-    check = get_object_or_404(Check, code=code)
-    if check.user != request.team.user:
-        return HttpResponseForbidden()
-
-    form = PriorityForm(request.POST)
-    if form.is_valid():
-        check.priority = form.cleaned_data["priority"]
-        check.save()
-
-    return redirect("hc-checks")
-
-@login_required
-@uuid_or_400
-def stakeholders(request, code):
-    assert request.method == "GET"
-
-    stakeholders = StakeHolder.objects.filter(code=code)
-
-    ctx = {
-        "code": code,
-        "stakeholders": stakeholders
-    }
-
-    return render(request, "front/stakeholder.html", ctx)
-
-
-@login_required
-@uuid_or_400
-def add_stakeholder(request, code):
-    assert request.method == "POST"
-
-    form = StakeHolderForm(request.POST)
-    if form.is_valid():
-        name = form.cleaned_data["stakeholder_name"]
-        email = form.cleaned_data["stakeholder_email"]
-        stakeholder = StakeHolder(name=name, email=email)
-        stakeholder.code = code
-        stakeholder.save()
-    else:
-        string = form.cleaned_data["stakeholder_name"] + "Who diss"
-        return HttpResponse(string)
-
-    return redirect("hc-stakeholders", code)
-
-
-@login_required
-@uuid_or_400
 def pause(request, code):
     assert request.method == "POST"
 
@@ -247,6 +195,77 @@ def remove_check(request, code):
     check.delete()
 
     return redirect("hc-checks")
+
+@login_required
+@uuid_or_400
+def update_priority(request, code):
+    # Updates check priority
+
+    assert request.method == "POST"
+
+    check = get_object_or_404(Check, code=code)
+    if check.user != request.team.user:
+        return HttpResponseForbidden()
+
+    form = PriorityForm(request.POST)
+    if form.is_valid():
+        check.priority = form.cleaned_data["priority"]
+        check.save()
+
+    return redirect("hc-checks")
+
+@login_required
+def stakeholders(request, **kwargs):
+    # Displays a list of stakeholders assigned to a check.
+
+    assert request.method == "GET" or request.method == "POST"
+    code = kwargs['code']
+
+    stakeholders = StakeHolder.objects.filter(code=code)
+
+    ctx = {
+        "code": code,
+        "stakeholders": stakeholders
+    }
+
+    return render(request, "front/stakeholder.html", ctx)
+
+
+@login_required
+def add_stakeholder(request, **kwargs):
+    # Add a stakeholder assigned to a check.
+
+    assert request.method == "POST"
+    code = kwargs['code']
+
+    check = Check.objects.filter(code=code)
+    if check[0].priority != 1:
+        return HttpResponse("This functionality is only for checks with high priority")
+
+    form = StakeHolderForm(request.POST)
+    if form.is_valid():
+        name = form.cleaned_data["stakeholder_name"]
+        email = form.cleaned_data["stakeholder_email"]
+        stakeholder = StakeHolder(name=name, email=email)
+        stakeholder.code = code
+        stakeholder.save()
+
+    return redirect("hc-stakeholders", code)
+
+@login_required
+def remove_stakeholder(request, **kwargs):
+    # Remove a stakeholder assigned to a check.
+
+    assert request.method == "POST"
+    code = kwargs['code']
+    email = kwargs['email']
+
+    stakeholder = get_object_or_404(StakeHolder, email=email)
+    stakeholders = StakeHolder.objects.filter(email=email)
+    if stakeholders:
+        for stakeholder in stakeholders:
+            stakeholder.delete()
+            return redirect("hc-stakeholders", code)
 
 
 @login_required
