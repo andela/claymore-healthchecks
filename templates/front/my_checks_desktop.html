@@ -86,16 +86,17 @@
                            Pause Monitoring
                         </a>
                     </li>
+                    <li role="separator" class="divider"></li>
                     <li>
                         <a href="#" class="set-priority"
                            data-url="{% url 'hc-update-priority' check.code %}">
                             Set Priority
                         </a>
                     </li>
-                    <li>
+                    <li {% if check.priority != 1 %} class="disabled" {% endif %}>
                         <a href="{% url 'hc-stakeholders' check.code %}"
-                           class="stakeholder" data-url="{% url 'hc-stakeholders' check.code %}">
-                            Check Stakeholders
+                           class="stakeholder {% if check.priority != 1 %} not-active {% endif %}" data-url="{% url 'hc-stakeholders' check.code %}">
+                            Stakeholders
                         </a>
                     </li>
                     <li role="separator" class="divider"></li>
