@@ -27,7 +27,7 @@
     </div>
 
     <div class="row">
-        <div class="col-sm-12">
+        <div class="col-sm-12 text-center">
             <a id="add_stakeholder" class="btn btn-primary btn-lg"
                data-url="{% url 'hc-add-stakeholder' code %}">
                 Add Stakeholder
@@ -53,6 +53,7 @@
                             <div class="col-sm-9">
                                 <input id="stakeholder-name"
                                        type="text" name="stakeholder_name"
+                                       placeholder="Name e.g Jane Doe"
                                        class="form-control"><br>
 
                                 <span class="help-block">
@@ -70,7 +71,7 @@
 
                             <input id="update-stakeholder-email"
                                    type="text" name="stakeholder_email"
-                                   placeholder="Email e.g alice@example.org"
+                                   placeholder="Email e.g jane@example.org"
                                    class="form-control"><br>
 
                             <span class="help-block">
@@ -84,6 +85,31 @@
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
                         <button type="submit" class="btn btn-primary">Submit</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="remove-stakeholder-modal" class="modal">
+        <div class="modal-dialog">
+            <form id="remove-stakeholder-form" method="post">
+                {% csrf_token %}
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="remove-stakeholder-title">Remove Stakeholder<span class="remove-stakeholder-name"></span></h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>You are about to remove stakeholder
+                            <strong class="remove-stakeholder-name">---</strong>.
+                        </p>
+                        <p>Once it's gone there is no "undo".</p>
+                        <p>Are you sure?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-danger">Remove</button>
                     </div>
                 </div>
             </form>
