@@ -180,21 +180,13 @@ $(function () {
         return false;
     });
 
-    $(".set-priority").click(function(e){
-        var url = e.target.getAttribute("data-url");
-        $("#priority").attr("action", url);
-
-        $("#update-priority-modal").modal("show");
-        return false;
-    });
-
 
     var clipboard = new Clipboard('button.copy-link');
     $("button.copy-link").mouseout(function(e) {
         setTimeout(function() {
             e.target.textContent = "copy";
         }, 300);
-    })
+    });
 
     clipboard.on('success', function(e) {
         e.trigger.textContent = "copied!";
@@ -206,5 +198,13 @@ $(function () {
         prompt("Press Ctrl+C to select:", text)
     });
 
+        /*Custom scripts*/
 
+    $(".set-priority").click(function(e){
+        var url = e.target.getAttribute("data-url");
+        $("#priority").attr("action", url);
+
+        $("#update-priority-modal").modal("show");
+        return false;
+    });
 });
