@@ -32,7 +32,10 @@ channel_urls = [
 stakeholder_urls = [
     url(r'^list/$', views.stakeholders, name='hc-stakeholders'),
     url(r'^add/$', views.add_stakeholder, name="hc-add-stakeholder"),
-    url(r'^remove/(?P<email>[\w.@]+)/$', views.remove_stakeholder, name='hc-remove-stakeholder'),
+    url(r'^remove/(?P<email>[\w.@]+)/$', views.remove_stakeholder,
+        name='hc-remove-stakeholder'),
+    url(r'hierachy/(?P<email>[\w.@]+)/$', views.update_hierachy,
+        name='hc-update-hierachy'),
 ]
 
 urlpatterns = [
