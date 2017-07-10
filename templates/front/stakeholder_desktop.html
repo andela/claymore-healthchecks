@@ -20,23 +20,31 @@
             </div>
         </td>
         <td>
-            <ul class="hierachy" style="list-style-type: none; display: inline-block;">
-                <li>
-                    <button class="btn btn-sm btn-default" id="increment-btn">
-                        <i class="fa fa-chevron-down" aria-hidden="true"></i>
-                    </button>
-                </li>
-                <li>
-                    <div class="hierachy-value col-sm-1">
-                        {{ stakeholder.hierachy }}
-                    </div>
-                </li>
-                <li>
-                    <button class="btn btn-sm btn-default" id="decrement-btn">
-                        <i class="fa fa-chevron-up" aria-hidden="true"></i>
-                    </button>
-                </li>
-            </ul>
+            <form action="{% url 'hc-update-hierachy' stakeholder.code stakeholder.email %}"
+                  method="post">
+                {% csrf_token %}
+                <ul class="hierachy" style="list-style-type: none; display: inline-block;">
+                    <li>
+                        <button class="btn btn-sm btn-default decrement-btn" id=""
+                                onclick="change_hierachy_value(-1, 'st-{{ forloop.counter }}')"
+                                name="-1">
+                            <i class="fa fa-chevron-down" aria-hidden="true"></i>
+                        </button>
+                    </li>
+                    <li>
+                        <div id="st-{{ forloop.counter }}" class="hierachy-value col-sm-1">
+                            {{ stakeholder.hierachy }}
+                        </div>
+                    </li>
+                    <li>
+                        <button class="btn btn-sm btn-default increment-btn" id=""
+                                onclick="change_hierachy_value(1, 'st-{{ forloop.counter }}')"
+                                name="1">
+                            <i class="fa fa-chevron-up" aria-hidden="true"></i>
+                        </button>
+                    </li>
+                </ul>
+            </form>
         </td>
         <td>
             <button href="#" class="btn btn-sm btn-default stake-holder-remove"
