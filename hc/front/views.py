@@ -220,8 +220,7 @@ def stakeholders(request, **kwargs):
 
     assert request.method == "GET" or request.method == "POST"
     code = kwargs['code']
-
-    stakeholders = StakeHolder.objects.filter(code=code)
+    stakeholders = StakeHolder.objects.filter(code=code).order_by("name")
 
     ctx = {
         "code": code,
@@ -261,11 +260,24 @@ def remove_stakeholder(request, **kwargs):
     email = kwargs['email']
 
     stakeholder = get_object_or_404(StakeHolder, email=email)
-    stakeholders = StakeHolder.objects.filter(email=email)
-    if stakeholders:
-        for stakeholder in stakeholders:
-            stakeholder.delete()
-            return redirect("hc-stakeholders", code)
+    stakeholder.delete()
+    return redirect("hc-stakeholders", code)
+
+@login_required
+def update_hierachy(request, **kwargs):
+    # Change the hierachy of stakeholders
+
+    assert request.method == "POST"
+    code = kwargs['code']
+    email = kwargs['email']
+
+    stakeholder = get_object_or_404(StakeHolder, email=email)
+    if '-1' in request.POST and stakeholder.hierachy > 0:
+        stakeholder.hierachy = int(stakeholder.hierachy) - 1
+    elif '1' in request.POST and stakeholder.hierachy < 6:
+        stakeholder.hierachy = int(stakeholder.hierachy) + 1
+    stakeholder.save()
+    return redirect("hc-stakeholders", code)
 
 
 @login_required
