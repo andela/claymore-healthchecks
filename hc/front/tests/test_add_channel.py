@@ -36,3 +36,28 @@ class AddChannelTestCase(BaseTestCase):
             url = "/integrations/add_%s/" % frag
             r = self.client.get(url)
             self.assertContains(r, "Integration Settings", status_code=200)
+
+    def test_team_access_works(self):
+        ### Test that the team access works.
+
+        url = "/integrations/add/"
+        form = {"kind": "email", "value": "alice@example.org"}
+
+        self.client.login(username="alice@example.org", password="password")
+        self.client.post(url, form)
+        self.client.logout()
+
+        url = "/integrations/"
+        self.client.login(username="bob@example.org", password="password")
+        response = self.client.get(url)
+        self.assertIn("alice@example.org", response.content.decode('utf-8'))
+
+    def test_bad_kinds_wont_work(self):
+        ### Test that bad kinds dont work
+
+        self.client.login(username="alice@example.org", password="password")
+        kinds = ("facebook", "gjkl", "whatsapp", "ps", "hip", "vict")
+        for frag in kinds:
+            url = "/integrations/add_{}/".format(frag)
+            response = self.client.get(url)
+            self.assertContains(response, " ", status_code=404)

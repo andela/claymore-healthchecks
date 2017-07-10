@@ -2,7 +2,15 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="4ec95aa6-3191-41d8-bd65-35fdfca2e083" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/hc/local_settings_old.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/hc/accounts/tests/test_profile.py" afterPath="$PROJECT_DIR$/hc/accounts/tests/test_profile.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/hc/accounts/tests/test_switch_team.py" afterPath="$PROJECT_DIR$/hc/accounts/tests/test_switch_team.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/hc/accounts/tests/test_team_access_middleware.py" afterPath="$PROJECT_DIR$/hc/accounts/tests/test_team_access_middleware.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/hc/front/tests/test_add_channel.py" afterPath="$PROJECT_DIR$/hc/front/tests/test_add_channel.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/hc/front/tests/test_add_check.py" afterPath="$PROJECT_DIR$/hc/front/tests/test_add_check.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/hc/front/tests/test_add_pushbover.py" afterPath="$PROJECT_DIR$/hc/front/tests/test_add_pushbover.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -14,18 +22,6 @@
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="views.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/hc/api/views.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1545">
-              <caret line="114" column="37" lean-forward="false" selection-start-line="114" selection-start-column="37" selection-end-line="114" selection-end-column="37" />
-              <folding>
-                <element signature="e#0#36#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="test_add_channel.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/hc/front/tests/test_add_channel.py">
           <provider selected="true" editor-type-id="text-editor">
@@ -33,6 +29,7 @@
               <caret line="38" column="0" lean-forward="false" selection-start-line="38" selection-start-column="0" selection-end-line="38" selection-end-column="0" />
               <folding>
                 <element signature="e#0#47#0" expanded="true" />
+                <marker date="1499675513000" expanded="true" signature="237:1397" ph="..." />
               </folding>
             </state>
           </provider>
@@ -45,6 +42,8 @@
               <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
               <folding>
                 <element signature="e#0#31#0" expanded="true" />
+                <marker date="1499675513000" expanded="true" signature="104:934" ph="..." />
+                <marker date="1499675513000" expanded="true" signature="134:934" ph="..." />
               </folding>
             </state>
           </provider>
@@ -57,6 +56,7 @@
               <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
               <folding>
                 <element signature="e#0#47#0" expanded="true" />
+                <marker date="1499675513000" expanded="true" signature="237:2226" ph="..." />
               </folding>
             </state>
           </provider>
@@ -86,7 +86,7 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="badge.svg" pinned="false" current-in-tab="true">
+      <file leaf-file-name="badge.svg" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/templates/badge.svg">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="0">
@@ -96,21 +96,33 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="my_checks_desktop.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/templates/front/my_checks_desktop.html">
+      <file leaf-file-name="__init__.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/hc/accounts/tests/__init__.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="360">
-              <caret line="24" column="37" lean-forward="false" selection-start-line="24" selection-start-column="20" selection-end-line="24" selection-end-column="37" />
+            <state relative-caret-position="0">
+              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="base.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/templates/base.html">
+      <file leaf-file-name="test_check_token.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/hc/accounts/tests/test_check_token.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="0">
               <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding>
+                <element signature="e#0#53#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="my_checks_desktop.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/templates/front/my_checks_desktop.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="360">
+              <caret line="24" column="37" lean-forward="false" selection-start-line="24" selection-start-column="20" selection-end-line="24" selection-end-column="37" />
               <folding />
             </state>
           </provider>
@@ -452,7 +464,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="management" />
+              <option name="myItemId" value="tests" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -606,16 +618,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/static/img/channels.png">
-      <provider selected="true" editor-type-id="images">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/static/img/channels@2x.png">
-      <provider selected="true" editor-type-id="images">
-        <state />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/static/img/period_grace@2x.png">
       <provider selected="true" editor-type-id="images">
         <state />
@@ -896,6 +898,8 @@
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="e#0#31#0" expanded="true" />
+            <marker date="1499675513000" expanded="true" signature="104:934" ph="..." />
+            <marker date="1499675513000" expanded="true" signature="134:934" ph="..." />
           </folding>
         </state>
       </provider>
@@ -906,6 +910,7 @@
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="e#0#47#0" expanded="true" />
+            <marker date="1499675513000" expanded="true" signature="237:2226" ph="..." />
           </folding>
         </state>
       </provider>
@@ -934,6 +939,7 @@
           <caret line="38" column="0" lean-forward="false" selection-start-line="38" selection-start-column="0" selection-end-line="38" selection-end-column="0" />
           <folding>
             <element signature="e#0#47#0" expanded="true" />
+            <marker date="1499675513000" expanded="true" signature="237:1397" ph="..." />
           </folding>
         </state>
       </provider>
@@ -953,6 +959,24 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/hc/accounts/tests/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/hc/accounts/tests/test_check_token.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#53#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
