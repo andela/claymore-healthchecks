@@ -90,8 +90,7 @@ class Check(models.Model):
 
         if self.last_ping + self.timeout + self.grace > now:
             return "up"
-        elif self.last_ping - now < self.timeout - self.grace:
-            return "down"
+
         else:
             return "down"
 
@@ -105,6 +104,7 @@ class Check(models.Model):
                 }
                 for channel in self.channel_set.all():
                     emails.alert(channel.value, ctx)
+                    return "over"
 
     def in_grace_period(self):
         if self.status in ("new", "paused"):
