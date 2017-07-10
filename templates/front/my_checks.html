@@ -31,16 +31,31 @@
 
 </div>
 <div class="row">
-    <div class="col-sm-12">
-
-
     {% if checks %}
+    <!-- bootsrap tabs -->
+    <!-- Nav tabs  -->
+    <ul class="nav nav-tabs" role="tablist">
+      <li role="presentation" class="active"><a href="#myChecks" aria-controls="home" role="tab" data-toggle="tab" >My Checks</a></li>
+      <li role="presentation"><a href="#failedJobs" aria-controls="failedJobs" role="tab" data-toggle="tab">Failed Jobs</a></li>
+    </ul>
+
+    <!-- tabs panes -->
+    <div class="tab-content">
+      <!-- my checks -->
+      <div role="tabpanel" class="tab-pane active" id="myChecks">
         {% include "front/my_checks_mobile.html" %}
         {% include "front/my_checks_desktop.html" %}
+      </div>
+
+      <div role="tabpanel" class="tab-pane" id="failedJobs">
+        {% include "front/my_failed_checks_mobile.html" %}
+        {% include "front/my_failed_checks_desktop.html" %}
+      </div>
+    </div>
     {% else %}
     <div class="alert alert-info">You don't have any checks yet.</div>
     {% endif %}
-    </div>
+</div>
 </div>
 <div class="row">
     <div class="col-sm-12">
