@@ -9,36 +9,7 @@ $(function () {
         $("#update-stakeholder-modal").modal("show");
         return false;
     });
-
-    // var i;
-    // var increment_btns = $(".increment-btn");
-    // var decrement_btns = $(".decrement-btn");
-    // var hierachy_values = $(".hierachy-value");
-    // console.log(hierachy_values);
-
-    // for (i = 0; i < increment_btns.length; i++){
-    //     increment_btns[i].click(function(){
-    //         console.log(increment_btns)
-    //         hierachy = hierachy_values[i].html();
-    //         hierachy_values[i].html(hierachy++);
-    //         console.log(hierachy)
-    //     });
-    // }
-    //
-    // for (i = 0; i < decrement_btns.length; i++){
-    //     decrement_btns[i].click(function(){
-    //         hierachy = hierachy_values[i].html();
-    //         hierachy_values[i].html(hierachy--);
-    //     });
-    // }
-
-
-
-    // $(".increment-btn").click(function(){
-    //     $(".hierachy-value").html("clicked");
-    //     console.log("Clicked");
-    // });
-
+    
     $(".stake-holder-remove").click(function(e){
         url = e.target.getAttribute("data-url");
         name = e.target.getAttribute("data-name");
