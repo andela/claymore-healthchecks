@@ -18,7 +18,7 @@ STATUSES = (
     ("down", "Down"),
     ("new", "New"),
     ("paused", "Paused"),
-    ("over", "over")
+    ("over", "Over")
 )
 DEFAULT_TIMEOUT = td(days=1)
 DEFAULT_GRACE = td(hours=1)
@@ -83,26 +83,28 @@ class Check(models.Model):
         return errors
 
     def get_status(self):
-        if self.status in ("new", "paused"):
+        if self.status in ("new", "paused", "over"):
             return self.status
 
         now = timezone.now()
 
         if self.last_ping + self.timeout + self.grace > now:
             return "up"
-        if self.last_ping < self.timeout - self.grace:
-            return "over"
-
-        return "down"
+        elif self.last_ping - now < self.timeout - self.grace:
+            return "down"
+        else:
+            return "down"
 
     def runs_too_often(self):
         checks = Check.objects.filter(user=self.user)
+        now = timezone.now()
         for check in checks:
-            if self.last_ping < self.timeout - self.grace:
+            if self.last_ping - now < self.timeout - self.grace:
                 ctx = {
                     "check": check
                 }
-                emails.alert(self.value, ctx)
+                for channel in self.channel_set.all():
+                    emails.alert(channel.value, ctx)
 
     def in_grace_period(self):
         if self.status in ("new", "paused"):
