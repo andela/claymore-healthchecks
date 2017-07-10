@@ -81,6 +81,22 @@ class Check(models.Model):
 
         return errors
 
+    def send_stakeholder_alert(self):
+        if self.status not in("up", "down"):
+            raise NotImplementedError("Unexpected status: %s" % self.status)
+
+        stakeholders = StakeHolder.objects.filter(code=self.code)
+        for stakeholder in stakeholders:
+            now = timezone.now()
+            notify_stakeholder = self.last_ping + self.timeout + self.grace +\
+                                 td(hours = stakeholder.hierachy) < now
+            ctx = {
+                "check": self,
+                "now": now,
+            }
+            if notify_stakeholder:
+                emails.alert(stakeholder.email, ctx)
+
     def get_status(self):
         if self.status in ("new", "paused"):
             return self.status
