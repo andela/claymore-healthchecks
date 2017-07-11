@@ -238,6 +238,7 @@ def add_stakeholder(request, **kwargs):
     code = kwargs['code']
 
     check = Check.objects.filter(code=code)
+    stakeholders = StakeHolder.objects.filter(code=code)
     if check[0].priority != 1:
         return HttpResponse("This functionality is only for checks with high priority")
 
@@ -245,11 +246,26 @@ def add_stakeholder(request, **kwargs):
     if form.is_valid():
         name = form.cleaned_data["stakeholder_name"]
         email = form.cleaned_data["stakeholder_email"]
+
+        if stakeholder_is_duplicate(code, email):
+            ctx = {
+                "code": code,
+                "stakeholders": stakeholders,
+                "duplicate": True,
+            }
+            return render(request, "front/stakeholder.html", ctx)
+
         stakeholder = StakeHolder(name=name, email=email)
         stakeholder.code = code
         stakeholder.save()
 
     return redirect("hc-stakeholders", code)
+
+def stakeholder_is_duplicate(code, email):
+    stakeholders = StakeHolder.objects.filter(code=code).filter(email=email)
+    if stakeholders:
+        return True
+    return False
 
 @login_required
 def remove_stakeholder(request, **kwargs):
@@ -259,8 +275,9 @@ def remove_stakeholder(request, **kwargs):
     code = kwargs['code']
     email = kwargs['email']
 
-    stakeholder = get_object_or_404(StakeHolder, email=email)
-    stakeholder.delete()
+    stakeholders = StakeHolder.objects.filter(email=email).filter(code=code)
+    for stakeholder in stakeholders:
+        stakeholder.delete()
     return redirect("hc-stakeholders", code)
 
 @login_required
