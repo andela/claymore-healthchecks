@@ -5,6 +5,10 @@
 
 {% block content %}
 
+    <div id="stakeholder_popup">
+        The Stakeholder entered already exists for this Check.
+    </div>
+
     <div class="col-sm-12">
         <h1>
             {% if request.team == request.user.profile %}
@@ -124,4 +128,7 @@
 <script src="{% static 'js/clipboard.min.js' %}"></script>
 <script src="{% static 'js/stakeholder.js' %}"></script>
 {% endcompress %}
+    {% if duplicate %}
+        <script>stakeholder_popup();</script>
+    {% endif %}
 {% endblock %}
