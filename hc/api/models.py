@@ -12,13 +12,14 @@ from django.urls import reverse
 from django.utils import timezone
 from hc.api import transports
 from hc.lib import emails
+from django.http import HttpResponse
 
 STATUSES = (
     ("up", "Up"),
     ("down", "Down"),
     ("new", "New"),
     ("paused", "Paused"),
-    ("over", "over")
+    ("over", "Over")
 )
 DEFAULT_TIMEOUT = td(days=1)
 DEFAULT_GRACE = td(hours=1)
@@ -83,26 +84,28 @@ class Check(models.Model):
         return errors
 
     def get_status(self):
-        if self.status in ("new", "paused"):
+        if self.status in ("new", "paused", "over"):
             return self.status
 
         now = timezone.now()
 
         if self.last_ping + self.timeout + self.grace > now:
             return "up"
-        if self.last_ping < self.timeout - self.grace:
-            return "over"
-
-        return "down"
+        else:
+            return "down"
 
     def runs_too_often(self):
         checks = Check.objects.filter(user=self.user)
+        now = timezone.now()
         for check in checks:
-            if self.last_ping < self.timeout - self.grace:
+            print(now - self.last_ping)
+            if now - self.last_ping < self.timeout - self.grace:
                 ctx = {
                     "check": check
                 }
-                emails.alert(self.value, ctx)
+                for channel in self.channel_set.all():
+                    emails.alert(channel.value, ctx)
+                    return True
 
     def in_grace_period(self):
         if self.status in ("new", "paused"):
