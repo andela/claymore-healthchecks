@@ -1,0 +1,7 @@
+#stakeholder_popup {
+    display: none;
+    color: darkred;
+    border: 1px solid black;
+    background-color: indianred;
+    text-align: center;
+}

@@ -1,0 +1,58 @@
+{% load hc_extras humanize %}
+<table id="stakeholder-table" class="table hidden-xs">
+    <tr>
+        <th></th>
+        <th class="th-name">Name</th>
+        <th>Email</th>
+        <th>Hierachy</th>
+    </tr>
+    {% for stakeholder in stakeholders %}
+    <tr class="stakeholder-row">
+        <td></td>
+        <td class="name-cell">
+            <div data-name="{{ stakeholder.name }}">
+                <div>{{ stakeholder.name }}</div>
+            </div>
+        </td>
+        <td class="email-cell">
+            <div data-name="{{ stakeholder.email }}">
+                <div>{{ stakeholder.email }}</div>
+            </div>
+        </td>
+        <td>
+            <form action="{% url 'hc-update-hierachy' stakeholder.code stakeholder.email %}"
+                  method="post">
+                {% csrf_token %}
+                <ul class="hierachy" style="list-style-type: none; display: inline-block;">
+                    <li>
+                        <button class="btn btn-sm btn-default decrement-btn" id=""
+                                onclick="change_hierachy_value(-1, 'st-{{ forloop.counter }}')"
+                                name="-1">
+                            <i class="fa fa-chevron-down" aria-hidden="true"></i>
+                        </button>
+                    </li>
+                    <li>
+                        <div id="st-{{ forloop.counter }}" class="hierachy-value col-sm-1">
+                            {{ stakeholder.hierachy }}
+                        </div>
+                    </li>
+                    <li>
+                        <button class="btn btn-sm btn-default increment-btn" id=""
+                                onclick="change_hierachy_value(1, 'st-{{ forloop.counter }}')"
+                                name="1">
+                            <i class="fa fa-chevron-up" aria-hidden="true"></i>
+                        </button>
+                    </li>
+                </ul>
+            </form>
+        </td>
+        <td>
+            <button href="#" class="btn btn-sm btn-default stake-holder-remove"
+                    data-url="{% url 'hc-remove-stakeholder' stakeholder.code stakeholder.email %}"
+                    data-name="{{ stakeholder.name }}">
+                <span class="icon-delete" aria-hidden="true"></span>
+            </button>
+        </td>
+    </tr>
+    {% endfor %}
+</table>

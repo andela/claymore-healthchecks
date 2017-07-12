@@ -106,8 +106,8 @@ $(function () {
         var $this = $(this);
 
         $("#update-timeout-form").attr("action", $this.data("url"));
-        periodSlider.noUiSlider.set($this.data("timeout"))
-        graceSlider.noUiSlider.set($this.data("grace"))
+        periodSlider.noUiSlider.set($this.data("timeout"));
+        graceSlider.noUiSlider.set($this.data("grace"));
         $('#update-timeout-modal').modal({"show":true, "backdrop":"static"});
 
         return false;
@@ -186,7 +186,7 @@ $(function () {
         setTimeout(function() {
             e.target.textContent = "copy";
         }, 300);
-    })
+    });
 
     clipboard.on('success', function(e) {
         e.trigger.textContent = "copied!";
@@ -198,5 +198,13 @@ $(function () {
         prompt("Press Ctrl+C to select:", text)
     });
 
+        /*Custom scripts*/
 
+    $(".set-priority").click(function(e){
+        var url = e.target.getAttribute("data-url");
+        $("#priority").attr("action", url);
+
+        $("#update-priority-modal").modal("show");
+        return false;
+    });
 });
