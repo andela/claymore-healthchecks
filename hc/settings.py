@@ -135,6 +135,7 @@ COMPRESS_OFFLINE = True
 
 EMAIL_BACKEND = "djmail.backends.default.EmailBackend"
 
+
 # Slack integration -- override these in local_settings
 SLACK_CLIENT_ID = None
 SLACK_CLIENT_SECRET = None
