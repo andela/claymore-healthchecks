@@ -14,4 +14,3 @@ local_settings.py
 hc-env
 .vscode/
 .idea/
-.idea/claymore-healthchecks.iml

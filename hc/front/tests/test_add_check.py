@@ -11,9 +11,7 @@ class AddCheckTestCase(BaseTestCase):
         self.assertRedirects(r, "/checks/")
         assert Check.objects.count() == 1
 
-<<<<<<< HEAD
-    ### Test that team access works
-=======
+
     def test_team_access_works(self):
         ### Test that team access works
 
@@ -27,4 +25,4 @@ class AddCheckTestCase(BaseTestCase):
         self.client.login(username="bob@example.org", password="password")
         response = self.client.post(url)
         self.assertIn(str(check_code), response.content.decode('utf-8'))
->>>>>>> develop
+

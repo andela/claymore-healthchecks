@@ -114,14 +114,13 @@ class Check(models.Model):
         checks = Check.objects.filter(user=self.user)
         now = timezone.now()
         for check in checks:
-            print(now - self.last_ping)
-            if now - self.last_ping < self.timeout - self.grace:
+            if now - self.last_ping  < self.timeout - self.grace:
                 ctx = {
                     "check": check
                 }
                 for channel in self.channel_set.all():
                     emails.alert(channel.value, ctx)
-                    return True
+                return "over"
 
     def in_grace_period(self):
         if self.status in ("new", "paused"):

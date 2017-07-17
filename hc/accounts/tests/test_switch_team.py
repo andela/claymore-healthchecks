@@ -32,3 +32,4 @@ class SwitchTeamTestCase(BaseTestCase):
         r = self.client.get(url, follow=True)
         ### Assert the expected error code
         self.assertEqual(r.status_code, 200)
+        

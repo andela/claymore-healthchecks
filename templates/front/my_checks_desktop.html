@@ -26,7 +26,7 @@
                 <span class="status icon-up"></span>
             {% elif check.get_status == "down" %}
                 <span class="status icon-down"></span>
-            {% elif check.get_status == "over" %}
+            {% elif check.status == "over" %}
                 <span class="status glyphicon glyphicon-dashboard"></span>
             {% endif %}
         </td>

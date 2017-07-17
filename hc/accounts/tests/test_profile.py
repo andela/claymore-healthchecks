@@ -33,6 +33,10 @@ class ProfileTestCase(BaseTestCase):
         self.alice.profile.send_report()
 
         ###Assert that the email was sent and check email content
+
+        self.assertEqual(len(mail.outbox), 1)
+        email = mail.outbox[0]
+        self.assertTrue("This is a monthly report sent by healthchecks.io." in email.body)
         self.assertEqual(len(mail.outbox), 1)
         email = mail.outbox[0]
         self.assertTrue("This is a monthly report sent by healthchecks.io." in email.body)
@@ -48,12 +52,15 @@ class ProfileTestCase(BaseTestCase):
         for member in self.alice.profile.member_set.all():
             member_emails.add(member.user.email)
 
-        ### Assert the existence of the member emails
+        ### Assert the existence of the member email
         self.assertTrue(len(member_emails), 2)
 
         self.assertTrue("frank@example.org" in member_emails)
 
         ###Assert that the email was sent and check email content
+        self.assertEqual(len(mail.outbox), 1)
+        email = mail.outbox[0]
+        self.assertTrue("invites you to their healthchecks.io accoun" in email.body)
         self.assertEqual(len(mail.outbox), 1)
         email = mail.outbox[0]
         self.assertTrue("invites you to their healthchecks.io accoun" in email.body)
@@ -134,4 +141,3 @@ class ProfileTestCase(BaseTestCase):
         response = self.client.post("/accounts/profile/", form)
         self.assertEqual(response.status_code, 200)
         self.assertTrue("The API key has been revoked!" in response.content.decode())
-        
