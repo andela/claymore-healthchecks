@@ -4,6 +4,8 @@
 
 {% block content %}
 <h2>Categories</h2>
+<a href="{% url 'new_post' %}" class="top-menu"><span class="glyphicon glyphicon-plus"></span></a>
+
 {% if categories %}
     <ul>
     {% for category in categories %}
