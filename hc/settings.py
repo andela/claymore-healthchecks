@@ -12,7 +12,6 @@ https://docs.djangoproject.com/en/1.8/ref/settings/
 
 import os
 import warnings
-from django.core.mail.backends.base import BaseEmailBackend
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
