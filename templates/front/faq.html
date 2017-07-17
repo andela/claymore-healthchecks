@@ -1,0 +1,76 @@
+<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+  <div class="panel panel-default">
+    <div class="panel-heading" role="tab" id="headingOne">
+      <h4 class="panel-title">
+        <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+          What is Heathchecks
+        </a>
+      </h4>
+    </div>
+    <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+      <div class="panel-body">
+        Healthchecks is a monitoring service for cron jobs, workers, services, APIs and anything else that can make or receive HTTP requests. Cronitor adds visibility to the critical jobs and backend systems that you rely on.
+      </div>
+    </div>
+  </div>
+
+  <div class="panel panel-default">
+    <div class="panel-heading" role="tab" id="headingTwo">
+      <h4 class="panel-title">
+        <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+          How does Healthchecks work ?
+        </a>
+      </h4>
+    </div>
+    <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+      <div class="panel-body">
+        Each job is given a unique ping URL like https://healthchecks.io/ping/12123892309123239. By making a simple GET request to the /api endpoint when your job starts, and another to /accounts, we are able to alert you if your job fails to run when expected, runs for longer than usual, runs outside it's schedule, or overlaps itself.
+      </div>
+    </div>
+  </div>
+
+  <div class="panel panel-default">
+    <div class="panel-heading" role="tab" id="headingThree">
+      <h4 class="panel-title">
+        <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="true" aria-controls="collapseThree">
+          What languages does Healthchecks support?
+        </a>
+      </h4>
+    </div>
+    <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+      <div class="panel-body">
+        With healthchecks, you can intergate with jobs using any language that can make an HTTP request. The easiest integration is directly within crontab using curl, and all modern languages have libraries for making requests.
+      </div>
+    </div>
+  </div>
+
+  <div class="panel panel-default">
+    <div class="panel-heading" role="tab" id="headingFour">
+      <h4 class="panel-title">
+        <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseFour" aria-expanded="true" aria-controls="collapseFour">
+          Why would I need this?
+        </a>
+      </h4>
+    </div>
+    <div id="collapseFour" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingFour">
+      <div class="panel-body">
+        Have you ever had a backup fail or an email campaign not go out? Healthchecks will tell you right away when something doesn't happen so you can fix it.
+      </div>
+    </div>
+  </div>
+
+  <div class="panel panel-default">
+    <div class="panel-heading" role="tab" id="headingFive">
+      <h4 class="panel-title">
+        <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseFive" aria-expanded="true" aria-controls="collapseFour">
+          How do I create a check?
+        </a>
+      </h4>
+    </div>
+    <div id="collapseFive" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingFour">
+      <div class="panel-body">
+        to get started, simply log into healthchecks and add a check. you will be provided with a unique ping address which you will add to your crontab
+      </div>
+    </div>
+  </div>
+</div>

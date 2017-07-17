@@ -1,12 +1,10 @@
+venv/*
 __pycache__/
 *.pyc
 .coverage
 hc.sqlite
 hc/local_settings.py
 static-collected
-.idea/
-.vscode/
-
 .DS_Store
 static/.DS_Store
 hc-venv
@@ -16,3 +14,4 @@ local_settings.py
 hc-env
 .vscode/
 .idea/
+.idea/claymore-healthchecks.iml

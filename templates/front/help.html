@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% load compress staticfiles %}
+
+{% block title %}Help Center - healthchecks.io{% endblock %}
+
+
+{% block content %}
+<div class="row">
+  <div class="jumbotron" id="jumbotron-bg">
+    <h1>We're here to help you along the way</h1>
+  </div>
+</div>
+
+<!-- Frequently asked questions -->
+<div class="row">
+  <div class="col-md-8">
+    <!-- accordian of FAQ goes here -->
+    <h2><strong>Frequently Asked Questions</strong></h2>
+    {% include "front/faq.html" %}
+  </div>
+  <div class="col-md-4">
+    <!-- icon of FAQ goes here -->
+    <img src="{% static 'img/faq.png' %}" height="300px" alt="get in touch" class="img-square">
+  </div>
+</div>
+
+<!-- Get in touch or live chat -->
+<div class="row">
+  <div class="col-md-12" align="center">
+    <h2>Got another question?</h2>
+    <img src="{% static 'img/support.jpg' %}" height="300px" alt="get in touch" class="img-circle">
+    <p><em>Send your question to one of our lovely Helpdesk Angels who are ready and waiting to assist you in any way they can.</em></p>
+    <p><strong>helpdesk@healthcheck.io</strong></p>
+  </div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+{% compress js %}
+<script src="{% static 'js/jquery-2.1.4.min.js' %}"></script>
+<script src="{% static 'js/bootstrap.min.js' %}"></script>
+<script src="{% static 'js/nouislider.min.js' %}"></script>
+<script src="{% static 'js/clipboard.min.js' %}"></script>
+<script src="{% static 'js/checks.js' %}"></script>
+{% endcompress %}
+{% endblock %}
