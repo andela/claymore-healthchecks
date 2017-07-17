@@ -204,8 +204,6 @@ class Channel(models.Model):
     def notify(self, check):
         # Make 3 attempts--
         for x in range(0, 3):
-
-            ###que wtf
             error = self.transport.notify(check) or ""
             if error in ("", "no-op"):
                 break  # Success!
