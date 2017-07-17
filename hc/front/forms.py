@@ -33,6 +33,29 @@ class AddChannelForm(forms.ModelForm):
         return value.strip()
 
 
+class PriorityForm(forms.Form):
+
+    CHOICES = ((1, 'Very low'),
+               (0, 'Low'))
+
+    priority = forms.ChoiceField(choices=CHOICES)
+
+    def clean_value(self):
+        return self.cleaned_data["priority"]
+
+
+class StakeHolderForm(forms.Form):
+
+    stakeholder_name = forms.CharField(max_length=100, required=True)
+    stakeholder_email = forms.CharField(max_length=100, required=True)
+
+    def clean_name(self):
+        return self.cleaned_data["stakeholder_name"]
+
+    def clean_email(self):
+        return self.cleaned_data["stakeholder_email"]
+
+
 class AddWebhookForm(forms.Form):
     error_css_class = "has-error"
 

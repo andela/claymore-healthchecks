@@ -8,6 +8,7 @@ check_urls = [
     url(r'^pause/$', views.pause, name="hc-pause"),
     url(r'^remove/$', views.remove_check, name="hc-remove-check"),
     url(r'^log/$', views.log, name="hc-log"),
+    url(r'^priority/$', views.update_priority, name="hc-update-priority"),
 ]
 
 channel_urls = [
@@ -28,16 +29,27 @@ channel_urls = [
         name="hc-verify-email"),
 ]
 
+stakeholder_urls = [
+    url(r'^list/$', views.stakeholders, name='hc-stakeholders'),
+    url(r'^add/$', views.add_stakeholder, name="hc-add-stakeholder"),
+    url(r'^remove/(?P<email>[\w.@]+)/$', views.remove_stakeholder,
+        name='hc-remove-stakeholder'),
+    url(r'hierachy/(?P<email>[\w.@]+)/$', views.update_hierachy,
+        name='hc-update-hierachy'),
+]
+
 urlpatterns = [
     url(r'^$', views.index, name="hc-index"),
     url(r'^checks/$', views.my_checks, name="hc-checks"),
     url(r'^checks/add/$', views.add_check, name="hc-add-check"),
     url(r'^checks/([\w-]+)/', include(check_urls)),
     url(r'^integrations/', include(channel_urls)),
+    url(r'^stakeholders/(?P<code>[\wd-]+)/', include(stakeholder_urls)),
 
     url(r'^docs/$', views.docs, name="hc-docs"),
     url(r'^docs/api/$', views.docs_api, name="hc-docs-api"),
     url(r'^about/$', views.about, name="hc-about"),
+    url(r'^help/$', views.help, name="hc-help"),
     url(r'^privacy/$', views.privacy, name="hc-privacy"),
     url(r'^terms/$', views.terms, name="hc-terms"),
 ]

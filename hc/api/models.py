@@ -12,6 +12,7 @@ from django.urls import reverse
 from django.utils import timezone
 from hc.api import transports
 from hc.lib import emails
+from django.http import HttpResponse
 
 STATUSES = (
     ("up", "Up"),
@@ -53,6 +54,7 @@ class Check(models.Model):
     last_ping = models.DateTimeField(null=True, blank=True)
     alert_after = models.DateTimeField(null=True, blank=True, editable=False)
     status = models.CharField(max_length=6, choices=STATUSES, default="new")
+    priority = models.IntegerField(default=0)
 
     def name_then_code(self):
         if self.name:
@@ -69,7 +71,6 @@ class Check(models.Model):
     def email(self):
         return "%s@%s" % (self.code, settings.PING_EMAIL_DOMAIN)
 
-    #use
     def send_alert(self):
         if self.status not in ("up", "down"):
             raise NotImplementedError("Unexpected status: %s" % self.status)
@@ -82,6 +83,22 @@ class Check(models.Model):
 
         return errors
 
+    def send_stakeholder_alert(self):
+        if self.status not in("up", "down"):
+            raise NotImplementedError("Unexpected status: %s" % self.status)
+
+        stakeholders = StakeHolder.objects.filter(code=self.code)
+        for stakeholder in stakeholders:
+            now = timezone.now()
+            notify_stakeholder = self.last_ping + self.timeout + self.grace +\
+                                 td(hours = stakeholder.hierachy) < now
+            ctx = {
+                "check": self,
+                "now": now,
+            }
+            if notify_stakeholder:
+                emails.alert(stakeholder.email, ctx)
+
     def get_status(self):
         if self.status in ("new", "paused", "over"):
             return self.status
@@ -90,7 +107,6 @@ class Check(models.Model):
 
         if self.last_ping + self.timeout + self.grace > now:
             return "up"
-
         else:
             return "down"
 
@@ -204,8 +220,6 @@ class Channel(models.Model):
     def notify(self, check):
         # Make 3 attempts--
         for x in range(0, 3):
-
-            ###que wtf
             error = self.transport.notify(check) or ""
             if error in ("", "no-op"):
                 break  # Success!
@@ -280,3 +294,10 @@ class Notification(models.Model):
     channel = models.ForeignKey(Channel)
     created = models.DateTimeField(auto_now_add=True)
     error = models.CharField(max_length=200, blank=True)
+
+
+class StakeHolder(models.Model):
+    name = models.CharField(max_length=100, null=True)
+    email = models.CharField(max_length=50, null=True)
+    code = models.UUIDField(null=True)
+    hierachy = models.IntegerField(default=0)
