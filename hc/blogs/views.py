@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from hc.blogs.models import Blog, Category
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, redirect
+from .forms import PostForm
 # Create your views here.
 
 
@@ -23,4 +24,14 @@ def view_categories(request, slug):
 
 
 def new_post(request):
-    return render(request, 'blogs/new_post.html')
+    if request.method == "POST":
+        form = PostForm(request.POST)
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.slug = post.slug_title()
+            post.author = request.user
+            post.save()
+            return redirect('view_blog_post', slug=post.slug)
+    else:
+        form = PostForm()
+        return render(request, 'blogs/new_post.html', {'form': form})

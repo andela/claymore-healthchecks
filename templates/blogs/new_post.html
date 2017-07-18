@@ -1,15 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Add post</title>
-</head>
-<body>
- <form method="POST" class="post-form">{% csrf_token %}
-        <input type="text" name="title">
-        <input type="textarea" name="blogpost">
-        <button type="submit" class="save btn btn-default">Save</button>
+{% extends "base.html" %}
+
+{% block title %} BlogPosts{% endblock %}
+
+{% block content %}
+ <form method="POST" class="post-form">
+     {% csrf_token %}
+     {{ form.as_p }}
+
+     <button type="submit" class="save btn btn-default">Save</button>
  </form>
 
-</body>
-</html>
+{% endblock %}
