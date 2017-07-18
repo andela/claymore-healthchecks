@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/1.8/ref/settings/
 
 import os
 import warnings
+import ssl
+ssl._create_default_https_context = ssl._create_unverified_context
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
