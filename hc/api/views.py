@@ -25,9 +25,13 @@ def ping(request, code):
     check.last_ping = timezone.now()
     if check.status in ("new", "paused"):
         check.status = "up"
+    if check.runs_too_often() == 'over':
+        check.status = "over"
 
     check.save()
     check.refresh_from_db()
+    # check from the db send mail to user on jobs that are running too often
+    check.runs_too_often()
 
     ping = Ping(owner=check)
     headers = request.META
@@ -40,7 +44,7 @@ def ping(request, code):
     ping.ua = headers.get("HTTP_USER_AGENT", "")[:200]
     ping.save()
 
-    response = HttpResponse("OK")
+    response = HttpResponse("OK"+ check.status)
     response["Access-Control-Allow-Origin"] = "*"
     return response
 
@@ -100,6 +104,7 @@ def badge(request, username, signature, tag):
 
     status = "up"
     q = Check.objects.filter(user__username=username, tags__contains=tag)
+    now = timezone.now()
     for check in q:
         if tag not in check.tags_list():
             continue
@@ -107,8 +112,13 @@ def badge(request, username, signature, tag):
         if status == "up" and check.in_grace_period():
             status = "late"
 
+        if check.last_ping - now < check.timeout - check.grace:
+            return "over"
         if check.get_status() == "down":
             status = "down"
+            break
+        if check.runs_too_often() =="over":
+            status = "over"
             break
 
     svg = get_badge_svg(tag, status)

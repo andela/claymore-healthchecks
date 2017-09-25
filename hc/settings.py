@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/1.8/ref/settings/
 
 import os
 import warnings
+import ssl
+ssl._create_default_https_context = ssl._create_unverified_context
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -134,6 +136,10 @@ STATICFILES_FINDERS = (
 COMPRESS_OFFLINE = True
 
 EMAIL_BACKEND = "djmail.backends.default.EmailBackend"
+DEFAULT_FROM_EMAIL = 'noreply@my-monitoring-project.com'
+DJMAIL_REAL_BACKEND = 'sgbackend.SendGridBackend'
+SENDGRID_API_KEY = "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"
+
 
 # Slack integration -- override these in local_settings
 SLACK_CLIENT_ID = None

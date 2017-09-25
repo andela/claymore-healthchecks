@@ -31,16 +31,31 @@
 
 </div>
 <div class="row">
-    <div class="col-sm-12">
-
-
     {% if checks %}
+    <!-- bootsrap tabs -->
+    <!-- Nav tabs  -->
+    <ul class="nav nav-tabs" role="tablist">
+      <li role="presentation" class="active"><a href="#myChecks" aria-controls="home" role="tab" data-toggle="tab" >My Checks</a></li>
+      <li role="presentation"><a href="#failedJobs" aria-controls="failedJobs" role="tab" data-toggle="tab">Failed Jobs</a></li>
+    </ul>
+
+    <!-- tabs panes -->
+    <div class="tab-content">
+      <!-- my checks -->
+      <div role="tabpanel" class="tab-pane active" id="myChecks">
         {% include "front/my_checks_mobile.html" %}
         {% include "front/my_checks_desktop.html" %}
+      </div>
+
+      <div role="tabpanel" class="tab-pane" id="failedJobs">
+        {% include "front/my_failed_checks_mobile.html" %}
+        {% include "front/my_failed_checks_desktop.html" %}
+      </div>
+    </div>
     {% else %}
     <div class="alert alert-info">You don't have any checks yet.</div>
     {% endif %}
-    </div>
+</div>
 </div>
 <div class="row">
     <div class="col-sm-12">
@@ -160,6 +175,37 @@
                         </p>
                     </div>
 
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div id="update-priority-modal" class="modal">
+    <div class="modal-dialog">
+        <form id="priority" class="form-horizontal" method="post">
+            {% csrf_token %}
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="update-timeout-title">Set check priority</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                      <div class="col-sm-10">
+
+                        <input class="col-sm-2" type="radio" name="priority" value=1>High priority <br>
+                        <input class="col-sm-2" type="radio" name="priority" value=0>Normal <br>
+
+                        <span class="help-block">
+                          Set the priority of your check above for quicker notification.
+                        </span>
+                      </div>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>

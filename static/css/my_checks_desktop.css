@@ -118,3 +118,8 @@ tr:hover .copy-link {
     color: #333;
 }
 
+.not-active {
+   pointer-events: none;
+   cursor: not-allowed;
+}
+

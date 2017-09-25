@@ -26,6 +26,8 @@
                 <span class="status icon-up"></span>
             {% elif check.get_status == "down" %}
                 <span class="status icon-down"></span>
+            {% elif check.status == "over" %}
+                <span class="status glyphicon glyphicon-dashboard"></span>
             {% endif %}
         </td>
         <td class="name-cell">
@@ -33,7 +35,7 @@
                     data-tags="{{ check.tags }}"
                     data-url="{% url 'hc-update-name' check.code %}"
                     class="my-checks-name {% if not check.name %}unnamed{% endif %}">
-                <div>{{ check.name|default:"unnamed" }}</div>
+                <div>{{ check.name|default:"unnamed" }} ( {{ check.priority }} )</div>
                 {% for tag in check.tags_list %}
                 <span class="label label-tag">{{ tag }}</span>
                 {% endfor %}
@@ -84,6 +86,19 @@
                            href="#"
                            data-url="{% url 'hc-pause' check.code %}">
                            Pause Monitoring
+                        </a>
+                    </li>
+                    <li role="separator" class="divider"></li>
+                    <li>
+                        <a href="#" class="set-priority"
+                           data-url="{% url 'hc-update-priority' check.code %}">
+                            Set Priority
+                        </a>
+                    </li>
+                    <li {% if check.priority != 1 %} class="disabled" {% endif %}>
+                        <a href="{% url 'hc-stakeholders' check.code %}"
+                           class="stakeholder {% if check.priority != 1 %} not-active {% endif %}" data-url="{% url 'hc-stakeholders' check.code %}">
+                            Stakeholders
                         </a>
                     </li>
                     <li role="separator" class="divider"></li>

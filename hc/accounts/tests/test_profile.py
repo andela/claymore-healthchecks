@@ -20,6 +20,11 @@ class ProfileTestCase(BaseTestCase):
         ### Assert that the token is set
 
         ### Assert that the email was sent and check email content
+        self.assertTrue(token is not None)
+        ### Assert that the email was sent and check email content
+        self.assertEqual(len(mail.outbox), 1)
+        email = mail.outbox[0]
+        self.assertTrue("Here's a link to set a password for your account on healthchecks.io:" in email.body)
 
     def test_it_sends_report(self):
         check = Check(name="Test Check", user=self.alice)
@@ -28,6 +33,13 @@ class ProfileTestCase(BaseTestCase):
         self.alice.profile.send_report()
 
         ###Assert that the email was sent and check email content
+
+        self.assertEqual(len(mail.outbox), 1)
+        email = mail.outbox[0]
+        self.assertTrue("This is a monthly report sent by healthchecks.io." in email.body)
+        self.assertEqual(len(mail.outbox), 1)
+        email = mail.outbox[0]
+        self.assertTrue("This is a monthly report sent by healthchecks.io." in email.body)
 
     def test_it_adds_team_member(self):
         self.client.login(username="alice@example.org", password="password")
@@ -40,11 +52,18 @@ class ProfileTestCase(BaseTestCase):
         for member in self.alice.profile.member_set.all():
             member_emails.add(member.user.email)
 
-        ### Assert the existence of the member emails
+        ### Assert the existence of the member email
+        self.assertTrue(len(member_emails), 2)
 
         self.assertTrue("frank@example.org" in member_emails)
 
         ###Assert that the email was sent and check email content
+        self.assertEqual(len(mail.outbox), 1)
+        email = mail.outbox[0]
+        self.assertTrue("invites you to their healthchecks.io accoun" in email.body)
+        self.assertEqual(len(mail.outbox), 1)
+        email = mail.outbox[0]
+        self.assertTrue("invites you to their healthchecks.io accoun" in email.body)
 
     def test_add_team_member_checks_team_access_allowed_flag(self):
         self.client.login(username="charlie@example.org", password="password")
@@ -108,3 +127,17 @@ class ProfileTestCase(BaseTestCase):
         self.assertNotContains(r, "bobs-tag.svg")
 
     ### Test it creates and revokes API key
+    def test_it_creates_and_revokes_API_key(self):
+        self.client.login(username="alice@example.org", password="password")
+
+        #create API key
+        form = {"create_api_key": "alice-api"}
+        response = self.client.post("/accounts/profile/", form)
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue("The API key has been created!" in response.content.decode())
+
+        # revoke api key
+        form = {"revoke_api_key": "alice-api"}
+        response = self.client.post("/accounts/profile/", form)
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue("The API key has been revoked!" in response.content.decode())

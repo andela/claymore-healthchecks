@@ -1,6 +1,6 @@
 $(function () {
 
-    var MINUTE = {name: "minute", nsecs: 60};
+    var MINUTE = {name: "min", nsecs: 60};
     var HOUR = {name: "hour", nsecs: MINUTE.nsecs * 60};
     var DAY = {name: "day", nsecs: HOUR.nsecs * 24};
     var WEEK = {name: "week", nsecs: DAY.nsecs * 7};
@@ -36,14 +36,17 @@ $(function () {
         connect: "lower",
         range: {
             'min': [60, 60],
-            '33%': [3600, 3600],
-            '66%': [86400, 86400],
-            '83%': [604800, 604800],
-            'max': 2592000,
+            '20%': [3600, 3600],
+            '45%': [86400, 86400],
+            '63%': [604800, 604800],
+            '80%': [2592000, 2592000],
+            '87%': [3456000, 3456000],
+            '93%': [4320000, 4320000],
+            'max': [5184000, 5184000]
         },
         pips: {
             mode: 'values',
-            values: [60, 1800, 3600, 43200, 86400, 604800, 2592000],
+            values: [60, 1800, 3600, 43200, 86400, 604800, 2592000, 5184000],
             density: 4,
             format: {
                 to: secsToText,
@@ -64,15 +67,19 @@ $(function () {
         start: [20],
         connect: "lower",
         range: {
-            'min': [60, 60],
-            '33%': [3600, 3600],
-            '66%': [86400, 86400],
-            '83%': [604800, 604800],
-            'max': 2592000,
+            'min': 60,
+            '20%': [3600, 3600],
+            '45%': [86400, 86400],
+            '63%': [604800, 604800],
+            '80%': [2592000, 2592000],
+            '87%': [3456000, 3456000],
+            '93%': [4320000, 4320000],
+            'max': 5184000
+
         },
         pips: {
             mode: 'values',
-            values: [60, 1800, 3600, 43200, 86400, 604800, 2592000],
+            values: [60, 1800, 3600, 43200, 86400, 604800, 2592000, 5184000],
             density: 4,
             format: {
                 to: secsToText,
@@ -106,8 +113,8 @@ $(function () {
         var $this = $(this);
 
         $("#update-timeout-form").attr("action", $this.data("url"));
-        periodSlider.noUiSlider.set($this.data("timeout"))
-        graceSlider.noUiSlider.set($this.data("grace"))
+        periodSlider.noUiSlider.set($this.data("timeout"));
+        graceSlider.noUiSlider.set($this.data("grace"));
         $('#update-timeout-modal').modal({"show":true, "backdrop":"static"});
 
         return false;
@@ -186,7 +193,7 @@ $(function () {
         setTimeout(function() {
             e.target.textContent = "copy";
         }, 300);
-    })
+    });
 
     clipboard.on('success', function(e) {
         e.trigger.textContent = "copied!";
@@ -198,5 +205,13 @@ $(function () {
         prompt("Press Ctrl+C to select:", text)
     });
 
+        /*Custom scripts*/
 
+    $(".set-priority").click(function(e){
+        var url = e.target.getAttribute("data-url");
+        $("#priority").attr("action", url);
+
+        $("#update-priority-modal").modal("show");
+        return false;
+    });
 });
